@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const Section = ({ id, title, children, className = '' }) => {
+const Section = ({ id, title, subtitle, children, className = '' }) => {
   return (
     <section id={id} className={`py-10 sm:py-16 lg:py-20 ${className}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,6 +16,11 @@ const Section = ({ id, title, children, className = '' }) => {
               {title}
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-accent rounded-full"></div>
             </h2>
+            {subtitle && (
+              <p className="mt-4 text-text-secondary text-sm sm:text-base max-w-2xl mx-auto">
+                {subtitle}
+              </p>
+            )}
           </motion.div>
         )}
         <motion.div
