@@ -6,7 +6,7 @@
 
 This is a modern, fast-loading portfolio website built with React and Vite, featuring a clean design system with dark/light mode support, smooth animations, and complete responsiveness across all devices.
 
-**Website URL:** [Your Portfolio URL]  
+**Live Link:**(https://muhammadadeel0072.github.io/My-Portfolio  
 **Developer:** Muhammad Adeel  
 **Email:** madeelkhan072@gmail.com  
 **GitHub:** [@MuhammadAdeel0072](https://github.com/MuhammadAdeel0072)
