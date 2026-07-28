@@ -6,8 +6,7 @@
 
 This is a modern, fast-loading portfolio website built with React and Vite, featuring a clean design system with dark/light mode support, smooth animations, and complete responsiveness across all devices.
 
-**Live Link:** https://adeel-portfolio-wine.vercel.app/ 
-**Developer:** Muhammad Adeel  
+**Live Link:** https://adeel-portfolio-wine.vercel.app
 **Email:** madeelkhan072@gmail.com  
 **GitHub:** [@MuhammadAdeel0072](https://github.com/MuhammadAdeel0072)
 
