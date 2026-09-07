@@ -1,0 +1,319 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   DESIGN SYSTEM — Muhammad Adeel Portfolio
+   Dark-first, teal accent, warm gold secondary (used sparingly)
+   ============================================================ */
+
+@theme inline {
+  /* shadcn compatibility tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--tx);
+  --color-border: var(--border);
+  --color-ring: var(--accent);
+  --color-primary: var(--accent);
+  --color-primary-foreground: #04211c;
+  --color-muted: var(--background-tertiary);
+  --color-muted-foreground: var(--tx-muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: #04211c;
+  --color-destructive: var(--danger);
+  --color-popover: var(--background-secondary);
+  --color-popover-foreground: var(--tx);
+  --color-card: var(--background-secondary);
+  --color-card-foreground: var(--tx);
+  --color-input: var(--border);
+  --color-secondary: var(--background-tertiary);
+  --color-secondary-foreground: var(--tx);
+
+  /* Portfolio tokens — class names used across all components */
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
+  --color-text: var(--tx);
+  --color-text-secondary: var(--tx-secondary);
+  --color-text-muted: var(--tx-muted);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+
+  /* Typography */
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-display-src), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-src), ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Consistent radius scale */
+  --radius-card: 1rem;
+  --radius-btn: 0.75rem;
+}
+
+/* ---------- Dark theme (default) ---------- */
+:root {
+  --background: #0b0f15;
+  --background-secondary: #10161f;
+  --background-tertiary: #18202c;
+  --border: rgb(148 163 184 / 0.14);
+  --border-strong: rgb(148 163 184 / 0.24);
+  --tx: #e7edf3;
+  --tx-secondary: #a6b3c2;
+  --tx-muted: #6d7a89;
+  --accent: #2dd4bf;
+  --accent-hover: #5eead4;
+  --accent-secondary: #e9b872;
+  --success: #4ade80;
+  --danger: #f87171;
+  --glass-bg: rgb(16 22 31 / 0.66);
+  --glass-bg-light: rgb(24 32 44 / 0.42);
+  --grid-line: rgb(148 163 184 / 0.055);
+  --shadow-color: 2px 4px 8px;
+  --glow: rgb(45 212 191 / 0.16);
+
+  /* shadcn leftovers mapped to palette (ui components compile-safe) */
+  --radius: 0.75rem;
+}
+
+/* ---------- Light theme ---------- */
+html.light {
+  --background: #f5f7f9;
+  --background-secondary: #ffffff;
+  --background-tertiary: #eaeff3;
+  --border: rgb(15 23 42 / 0.12);
+  --border-strong: rgb(15 23 42 / 0.2);
+  --tx: #101826;
+  --tx-secondary: #43536a;
+  --tx-muted: #6d7d90;
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
+  --accent-secondary: #a16207;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --glass-bg: rgb(255 255 255 / 0.72);
+  --glass-bg-light: rgb(255 255 255 / 0.5);
+  --grid-line: rgb(15 23 42 / 0.05);
+  --glow: rgb(13 148 136 / 0.12);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-text;
+    font-feature-settings: "ss01" on, "cv05" on;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Sticky-nav-safe anchor targets */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 30%, transparent);
+    color: var(--tx);
+  }
+
+  /* Visible, consistent focus for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Refined scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--tx-muted) 40%, transparent) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--tx-muted) 35%, transparent);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--tx-muted) 55%, transparent);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ============================================================
+   CUSTOM UTILITIES
+   ============================================================ */
+
+/* Glass surfaces — blur only, borders stay explicit */
+@utility glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  backdrop-filter: blur(16px) saturate(1.35);
+}
+
+@utility glass-light {
+  background: var(--glass-bg-light);
+  -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  backdrop-filter: blur(12px) saturate(1.25);
+}
+
+/* Standard card treatment */
+@utility glass-card {
+  background: color-mix(in oklab, var(--background-secondary) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 1px 2px rgb(2 8 14 / 0.18),
+    0 12px 32px -16px rgb(2 8 14 / 0.35);
+  transition:
+    border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.light .glass-card {
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.05),
+    0 12px 32px -18px rgb(15 23 42 / 0.14);
+}
+
+@utility shadow-lift {
+  box-shadow:
+    0 2px 4px rgb(2 8 14 / 0.2),
+    0 20px 44px -18px rgb(2 8 14 / 0.45);
+}
+
+html.light .shadow-lift {
+  box-shadow:
+    0 2px 4px rgb(15 23 42 / 0.06),
+    0 20px 44px -20px rgb(15 23 42 / 0.18);
+}
+
+/* Gradient text */
+@utility text-gradient {
+  background-image: linear-gradient(
+    115deg,
+    var(--accent-hover) 0%,
+    var(--accent) 55%,
+    color-mix(in oklab, var(--accent-secondary) 72%, var(--accent)) 115%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Form fields */
+@utility input-field {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--background-tertiary) 55%, transparent);
+  padding: 0.8rem 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--tx);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+
+  &::placeholder {
+    color: var(--tx-muted);
+  }
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--background-secondary);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 20%, transparent);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* Faint blueprint grid */
+@utility bg-grid-faint {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 54px 54px;
+}
+
+/* Film-grain noise (tiny inline SVG, GPU cheap) */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Typewriter caret */
+@utility animate-caret {
+  animation: caret-blink 1.05s step-end infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Gentle float for the hero portrait */
+@utility animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION — significantly damp all animation
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-float-slow,
+  .animate-caret {
+    animation: none !important;
+  }
+}

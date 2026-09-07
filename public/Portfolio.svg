@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="800" viewBox="0 0 640 800" role="img" aria-label="Muhammad Adeel monogram portrait">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#121a26"/>
+      <stop offset="0.55" stop-color="#0d141d"/>
+      <stop offset="1" stop-color="#0a0f16"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5eead4"/>
+      <stop offset="0.6" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#e9b872"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#94a3b8" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="640" height="800" fill="url(#bg)"/>
+  <rect width="640" height="800" fill="url(#grid)"/>
+  <rect width="640" height="800" fill="url(#glow)"/>
+
+  <!-- orbit rings -->
+  <circle cx="320" cy="340" r="168" fill="none" stroke="#2dd4bf" stroke-opacity="0.16" stroke-width="1.5" stroke-dasharray="3 7"/>
+  <circle cx="320" cy="340" r="204" fill="none" stroke="#94a3b8" stroke-opacity="0.12" stroke-width="1"/>
+
+  <!-- monogram plate -->
+  <rect x="212" y="232" width="216" height="216" rx="40" fill="#101823" stroke="#2dd4bf" stroke-opacity="0.35" stroke-width="1.5"/>
+  <rect x="228" y="248" width="184" height="184" rx="30" fill="none" stroke="#94a3b8" stroke-opacity="0.14" stroke-width="1"/>
+  <text x="320" y="368" text-anchor="middle" font-family="'Space Grotesk', 'Inter', system-ui, sans-serif" font-size="96" font-weight="700" fill="url(#accent)">MA</text>
+
+  <!-- orbiting dot -->
+  <circle cx="488" cy="286" r="5" fill="#2dd4bf"/>
+  <circle cx="152" cy="470" r="3.5" fill="#e9b872" fill-opacity="0.8"/>
+
+  <!-- bottom accent line -->
+  <rect x="270" y="646" width="100" height="4" rx="2" fill="url(#accent)"/>
+</svg>

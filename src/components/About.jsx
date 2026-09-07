@@ -1,23 +1,27 @@
+'use client';
+
 import Section from './Section';
 import { motion } from 'framer-motion';
 import { FiCode, FiTerminal, FiTrendingUp } from 'react-icons/fi';
+import { fadeUp, staggerContainer, VIEWPORT, hoverLift, EASE } from '../lib/motion';
 
 const About = () => {
+  // Original content — untouched
   const highlights = [
     {
-      icon: <FiCode className="w-6 h-6" />,
+      icon: <FiCode className="h-5 w-5" />,
       title: 'MERN Stack',
       desc: 'Building responsive, full-featured web applications with modern React patterns and scalable backends.',
       number: '01',
     },
     {
-      icon: <FiTerminal className="w-6 h-6" />,
+      icon: <FiTerminal className="h-5 w-5" />,
       title: 'Java Desktop',
       desc: 'Developing robust desktop systems with clean OOP architecture and efficient file handling.',
       number: '02',
     },
     {
-      icon: <FiTrendingUp className="w-6 h-6" />,
+      icon: <FiTrendingUp className="h-5 w-5" />,
       title: 'Continuous Learning',
       desc: 'Currently expanding into Android App Development to deliver seamless cross-platform experiences.',
       number: '03',
@@ -26,83 +30,89 @@ const About = () => {
 
   return (
     <Section id="about" title="About">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Left Column: Statement */}
-          <div className="w-full lg:w-3/5">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8 }}
+      <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16 xl:gap-20">
+        {/* ===== Left: statement ===== */}
+        <motion.div
+          variants={staggerContainer(0.12)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+        >
+          <motion.h2
+            variants={fadeUp(0, 20)}
+            className="mb-8 font-display text-3xl font-bold leading-[1.15] tracking-tight text-text sm:text-4xl md:text-[2.75rem] md:leading-[1.12]"
+          >
+            <span
+              aria-hidden="true"
+              className="mb-5 block h-1 w-14 rounded-full bg-gradient-to-r from-accent to-accent-secondary"
+            />
+            I am a Software Engineer focused on building{' '}
+            <span className="text-gradient">impactful digital products</span>.
+          </motion.h2>
+
+          <motion.div variants={fadeUp(0.1)} className="space-y-5 sm:space-y-6">
+            <p className="text-base leading-relaxed text-text-secondary sm:text-lg">
+              With a strong foundation in both web and desktop application development, I bridge
+              the gap between design and engineering. My passion lies in architecting systems that
+              are not only scalable and efficient under the hood, but also incredibly intuitive and
+              engaging for the end user.
+            </p>
+
+            <p className="text-base leading-relaxed text-text-secondary sm:text-lg">
+              Currently expanding my horizons into Android App Development to deliver seamless
+              cross-platform experiences. My ultimate goal is to build software products that solve
+              genuine problems at a global scale.
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* ===== Right: capability cards ===== */}
+        <motion.ul
+          variants={staggerContainer(0.1, 0.15)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          aria-label="Focus areas"
+          className="flex flex-col gap-4"
+        >
+          {highlights.map((item, index) => (
+            <motion.li
+              key={item.number}
+              variants={fadeUp(0, 22)}
+              whileHover={hoverLift}
+              className="glass-card group relative overflow-hidden rounded-2xl p-5 sm:p-6"
             >
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-text leading-tight mb-8"
+              {/* Ghost numeral */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-1 -top-3 select-none font-display text-6xl font-bold text-text/[0.045] transition-colors duration-500 group-hover:text-accent/10 sm:text-7xl"
               >
-                I am a Software Engineer focused on building{' '}
-                <span className="text-gradient">impactful digital products</span>.
-              </motion.h2>
+                {item.number}
+              </span>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="space-y-6"
-              >
-                <p className="text-text-secondary text-base sm:text-lg leading-relaxed">
-                  With a strong foundation in both web and desktop application development, I bridge the gap between design and engineering. My passion lies in architecting systems that are not only scalable and efficient under the hood, but also incredibly intuitive and engaging for the end user.
-                </p>
-
-                <p className="text-text-secondary text-base sm:text-lg leading-relaxed">
-                  Currently expanding my horizons into Android App Development to deliver seamless cross-platform experiences. My ultimate goal is to build software products that solve genuine problems at a global scale.
-                </p>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Right Column: Capability Cards */}
-          <div className="w-full lg:w-2/5">
-            <div className="grid grid-cols-1 gap-4">
-              {highlights.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -4 }}
-                  className="glass-card rounded-2xl p-6 group hover:border-accent/30 cursor-default"
+              <div className="relative flex items-start gap-4">
+                <span
+                  aria-hidden="true"
+                  className="glass flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-accent transition-transform duration-300 group-hover:scale-105"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="text-5xl font-display font-bold text-text/5 group-hover:text-accent/10 transition-colors">
-                        {item.number}
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-xl glass flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                          {item.icon}
-                        </div>
-                        <h3 className="text-lg font-display font-bold text-text group-hover:text-accent transition-colors">
-                          {item.title}
-                        </h3>
-                      </div>
-                      <p className="text-text-secondary text-sm leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
+                  {item.icon}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="mb-1.5 font-display text-lg font-bold text-text transition-colors duration-300 group-hover:text-accent">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">{item.desc}</p>
+                </div>
+              </div>
+
+              {/* Hover accent line */}
+              <span
+                aria-hidden="true"
+                className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-accent to-accent/40 transition-[width] duration-500 ease-out group-hover:w-full"
+              />
+            </motion.li>
+          ))}
+        </motion.ul>
       </div>
     </Section>
   );

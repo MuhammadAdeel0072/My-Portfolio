@@ -1,61 +1,132 @@
+'use client';
+
 import Section from './Section';
 import { motion } from 'framer-motion';
 import { FiBookOpen } from 'react-icons/fi';
+import { fadeUp, staggerContainer, VIEWPORT, hoverLift, EASE } from '../lib/motion';
 
 const Education = () => {
+  // Original content — untouched
   const education = [
     {
-      degree: "FSc (Pre-Engineering)",
-      institution: "Kallar Kahar Science College",
-      score: "82%",
-      year: "Completed"
+      degree: 'FSc (Pre-Engineering)',
+      institution: 'Kallar Kahar Science College',
+      score: '82%',
+      year: 'Completed',
     },
     {
-      degree: "Matriculation",
-      institution: "Kallar Kahar Science College",
-      score: "88.36%",
-      year: "Completed"
-    }
+      degree: 'Matriculation',
+      institution: 'Kallar Kahar Science College',
+      score: '88.36%',
+      year: 'Completed',
+    },
   ];
 
   return (
     <Section id="education" title="Education">
-      <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 px-4 sm:px-0">
+      <div className="mx-auto max-w-4xl">
+        <motion.ol
+          variants={staggerContainer(0.14, 0.1)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2"
+        >
           {education.map((edu, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="relative p-6 sm:p-8 bg-background-secondary border border-border rounded-xl sm:rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300"
+            <motion.li
+              key={edu.degree}
+              variants={fadeUp(0, 22)}
+              whileHover={hoverLift}
+              className="group relative overflow-hidden rounded-2xl border border-border bg-background-secondary p-6 shadow-lift transition-colors duration-300 hover:border-accent/30 sm:p-7"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-              
-              <FiBookOpen className="w-8 sm:w-10 h-8 sm:h-10 text-accent mb-4 sm:mb-6 relative z-10" />
-              
-              <h3 className="text-xl sm:text-2xl font-bold text-text mb-2 relative z-10">
-                {edu.degree}
-              </h3>
-              
-              <p className="text-base sm:text-lg text-text-secondary mb-4 relative z-10 font-medium">
-                {edu.institution}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 pt-6 border-t border-border relative z-10 gap-3 sm:gap-0">
-                <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs sm:text-sm font-bold">
-                  Score: {edu.score}
-                </span>
-                <span className="text-text-secondary text-xs sm:text-sm font-medium">
-                  {edu.year}
-                </span>
+              {/* Soft corner wash */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-accent/[0.06] blur-xl transition-opacity duration-500 group-hover:opacity-100 sm:opacity-60"
+              />
+
+              <div className="relative">
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="glass flex h-11 w-11 items-center justify-center rounded-xl text-accent">
+                    <FiBookOpen className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 font-mono text-[11px] text-text-muted">
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 rounded-full bg-success"
+                    />
+                    {edu.year}
+                  </span>
+                </div>
+
+                <h3 className="mb-1.5 font-display text-xl font-bold text-text sm:text-2xl">
+                  {edu.degree}
+                </h3>
+
+                <p className="mb-6 text-sm font-medium text-text-secondary sm:text-base">
+                  {edu.institution}
+                </p>
+
+                <div className="flex items-end justify-between border-t border-border pt-5">
+                  <div>
+                    <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+                      Score
+                    </p>
+                    <p className="font-display text-2xl font-bold text-gradient sm:text-[1.7rem]">
+                      {edu.score}
+                    </p>
+                  </div>
+                  {/* Progress ring visual — maps to the score */}
+                  <ScoreRing score={parseFloat(edu.score)} />
+                </div>
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </motion.ol>
       </div>
     </Section>
+  );
+};
+
+/** Compact radial gauge derived from the existing score value */
+const ScoreRing = ({ score }) => {
+  const circumference = 2 * Math.PI * 26;
+  const offset = circumference * (1 - score / 100);
+
+  return (
+    <div
+      className="relative h-16 w-16 shrink-0"
+      role="img"
+      aria-label={`Score ${score} out of 100`}
+    >
+      <svg viewBox="0 0 64 64" className="h-full w-full -rotate-90">
+        <circle
+          cx="32"
+          cy="32"
+          r="26"
+          fill="none"
+          strokeWidth="5"
+          className="stroke-border"
+        />
+        <motion.circle
+          cx="32"
+          cy="32"
+          r="26"
+          fill="none"
+          strokeWidth="5"
+          strokeLinecap="round"
+          className="stroke-accent"
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          whileInView={{ strokeDashoffset: offset }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 1.2, ease: EASE, delay: 0.3 }}
+        />
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center font-mono text-[11px] font-bold text-text-secondary">
+        {score}
+      </span>
+    </div>
   );
 };
 

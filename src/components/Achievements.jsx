@@ -1,52 +1,83 @@
+'use client';
+
 import Section from './Section';
 import { motion } from 'framer-motion';
 import { FiAward, FiStar, FiGithub } from 'react-icons/fi';
+import { fadeUp, staggerContainer, VIEWPORT, hoverLift } from '../lib/motion';
 
 const Achievements = () => {
+  // Original content — untouched
   const achievements = [
     {
-      icon: <FiAward className="w-8 h-8 text-yellow-500" />,
-      title: "Cisco Certificates",
-      items: ["C++ Essentials", "C++ Advanced", "Entrepreneurship"]
+      icon: <FiAward className="h-6 w-6" />,
+      iconClass: 'text-accent-secondary',
+      title: 'Cisco Certificates',
+      items: ['C++ Essentials', 'C++ Advanced', 'Entrepreneurship'],
     },
     {
-      icon: <FiStar className="w-8 h-8 text-primary" />,
-      title: "Competitions",
-      items: ["Participated in Speed Programming Competition at NUST EME College"]
+      icon: <FiStar className="h-6 w-6" />,
+      iconClass: 'text-accent',
+      title: 'Competitions',
+      items: ['Participated in Speed Programming Competition at NUST EME College'],
     },
     {
-      icon: <FiGithub className="w-8 h-8 text-slate-800 dark:text-white" />,
-      title: "Open Source",
-      items: ["Active GitHub collaboration and version control experience"]
-    }
+      icon: <FiGithub className="h-6 w-6" />,
+      iconClass: 'text-text',
+      title: 'Open Source',
+      items: ['Active GitHub collaboration and version control experience'],
+    },
   ];
 
   return (
     <Section id="achievements" title="Achievements">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-0">
+      <motion.ul
+        variants={staggerContainer(0.12, 0.1)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VIEWPORT}
+        aria-label="Achievements"
+        className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
         {achievements.map((achievement, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="bg-background-secondary border border-border p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-sm text-center hover:shadow-lg transition-shadow"
+          <motion.li
+            key={achievement.title}
+            variants={fadeUp(0, 22)}
+            whileHover={hoverLift}
+            className="glass-card group relative overflow-hidden rounded-2xl p-6 sm:p-7"
           >
-            <div className="mx-auto w-14 sm:w-16 h-14 sm:h-16 bg-background border border-border rounded-full flex items-center justify-center mb-4 sm:mb-6">
-              {achievement.icon}
+            {/* Icon chip */}
+            <div className="mb-5 flex items-center gap-4">
+              <span
+                className={`glass flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${achievement.iconClass}`}
+              >
+                {achievement.icon}
+              </span>
+              <h3 className="font-display text-lg font-bold text-text sm:text-xl">
+                {achievement.title}
+              </h3>
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-text mb-3 sm:mb-4">
-              {achievement.title}
-            </h3>
-            <ul className="text-text-secondary space-y-2">
+
+            {/* Items — left aligned for readability */}
+            <ul className="space-y-2.5">
               {achievement.items.map((item, i) => (
-                <li key={i} className="text-xs sm:text-sm leading-relaxed">{item}</li>
+                <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed text-text-secondary">
+                  <span
+                    aria-hidden="true"
+                    className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70"
+                  />
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
-          </motion.div>
+
+            {/* Hover accent line */}
+            <span
+              aria-hidden="true"
+              className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-accent to-accent/40 transition-[width] duration-500 ease-out group-hover:w-full"
+            />
+          </motion.li>
         ))}
-      </div>
+      </motion.ul>
     </Section>
   );
 };

@@ -1,132 +1,145 @@
+'use client';
+
 import Section from './Section';
 import { motion } from 'framer-motion';
-import { FiCalendar, FiMapPin } from 'react-icons/fi';
+import { FiCalendar, FiMapPin, FiChevronRight } from 'react-icons/fi';
+import { fadeUp, staggerContainer, VIEWPORT, EASE } from '../lib/motion';
 
 const Experience = () => {
+  // Original content — untouched
   const experiences = [
     {
-      title: "Full Stack Development Intern",
-      company: "Think & Code Pvt. Ltd.",
-      period: "2026",
-      duration: "2 Months",
-      description: "Worked as Full Stack Development Intern using MERN stack. Developed responsive web applications with modern React patterns, implemented RESTful APIs, and collaborated with the team on scalable backend solutions.",
-      technologies: ["React", "JavaScript", "Node.js", "Express.js", "MongoDB", "REST APIs", "Git", "GitHub", "Postman"],
-    }
+      title: 'Full Stack Development Intern',
+      company: 'Think & Code Pvt. Ltd.',
+      period: '2026',
+      duration: '2 Months',
+      image: '/Internship Certificate.png',
+      description:
+        'Worked as Full Stack Development Intern using MERN stack. Developed responsive web applications with modern React patterns, implemented RESTful APIs, and collaborated with the team on scalable backend solutions.',
+      technologies: ['React', 'JavaScript', 'Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'Git', 'GitHub', 'Postman'],
+    },
   ];
 
   const timeline = [
-    { year: '2026', label: 'Internship Period' },
-    { company: 'Think & Code', label: 'Company' },
-    { role: 'Full Stack Development', label: 'Role' },
-    { tech: 'MERN Stack', label: 'Technology' },
+    { value: '2026', label: 'Internship Period' },
+    { value: 'Think & Code', label: 'Company' },
+    { value: 'Full Stack Development', label: 'Role' },
+    { value: 'MERN Stack', label: 'Technology' },
   ];
 
   return (
     <Section id="experience" title="Experience">
-      <div className="max-w-4xl mx-auto">
-        {/* Timeline Visual */}
-        <div className="hidden lg:flex flex-col items-center mb-12">
+      <div className="mx-auto max-w-4xl">
+        {/* ===== Key facts progression — same data, presented as a strip ===== */}
+        <motion.ol
+          variants={staggerContainer(0.09, 0.1)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          className="mb-10 grid grid-cols-2 gap-3 sm:mb-12 sm:grid-cols-4 sm:gap-0"
+        >
           {timeline.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="flex flex-col items-center"
-            >
-              <div className="w-16 h-16 rounded-2xl glass flex items-center justify-center mb-2">
-                <span className="text-xs font-bold text-accent font-mono text-center leading-tight">
-                  {item.year || item.company || item.role || item.tech}
+            <motion.li key={item.label} variants={fadeUp(0, 16)} className="relative flex items-center">
+              <div className="glass-card flex w-full flex-col gap-1 rounded-xl px-4 py-3.5 sm:items-center sm:py-4">
+                <span className="break-words text-center font-mono text-xs font-bold leading-snug text-accent sm:text-[13px]">
+                  {item.value}
+                </span>
+                <span className="text-center font-mono text-[10px] uppercase tracking-[0.16em] text-text-muted">
+                  {item.label}
                 </span>
               </div>
-              <span className="text-[10px] text-text-muted font-mono uppercase tracking-widest mb-4">
-                {item.label}
-              </span>
+              {/* Connector */}
               {index < timeline.length - 1 && (
-                <motion.div
-                  initial={{ scaleY: 0 }}
-                  whileInView={{ scaleY: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.15 + 0.2 }}
-                  className="w-px h-8 bg-gradient-to-b from-accent/50 to-accent/20 origin-top"
+                <FiChevronRight
+                  aria-hidden="true"
+                  className="absolute -right-[7px] top-1/2 z-10 hidden h-3.5 w-3.5 -translate-y-1/2 text-accent/60 sm:block"
                 />
               )}
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </motion.ol>
 
-        {experiences.map((exp, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            className="relative"
-          >
-            {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-accent/20 to-transparent hidden sm:block" />
+        {/* ===== Entry card with timeline rail ===== */}
+        <div className="relative">
+          {/* Rail */}
+          <span
+            aria-hidden="true"
+            className="absolute left-[7px] top-2 bottom-2 hidden w-px bg-gradient-to-b from-accent/50 via-accent/15 to-transparent sm:block"
+          />
 
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
-              {/* Timeline dot */}
-              <div className="hidden sm:flex flex-col items-center">
-                <motion.div
+          {experiences.map((exp, index) => (
+            <motion.article
+              key={exp.title}
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={VIEWPORT}
+              transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
+              className="relative flex gap-6 sm:gap-8"
+            >
+              {/* Node */}
+              <span aria-hidden="true" className="mt-8 hidden shrink-0 sm:block">
+                <motion.span
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="w-4 h-4 rounded-full bg-accent ring-4 ring-accent/20 flex-shrink-0"
+                  viewport={VIEWPORT}
+                  transition={{ duration: 0.45, delay: 0.25, ease: EASE }}
+                  className="block h-4 w-4 rounded-full bg-accent ring-4 ring-accent/20"
                 />
-              </div>
+              </span>
 
-              {/* Content */}
               <motion.div
-                whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 20 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex-1 glass-card rounded-2xl p-6 sm:p-8"
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="glass-card group flex-1 rounded-2xl p-6 hover:border-accent/30 sm:p-8"
               >
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs font-bold font-mono rounded-full flex items-center gap-1">
-                    <FiCalendar className="w-3 h-3" />
+                {/* Meta row */}
+                <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1 font-mono text-xs font-bold text-accent">
+                    <FiCalendar className="h-3 w-3" aria-hidden="true" />
                     {exp.period}
                   </span>
-                  <span className="text-text-muted text-xs font-mono">
-                    {exp.duration}
-                  </span>
+                  <span className="font-mono text-xs text-text-muted">{exp.duration}</span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-display font-bold text-text mb-2">
+                <h3 className="mb-2 font-display text-2xl font-bold leading-tight text-text sm:text-[1.7rem]">
                   {exp.title}
                 </h3>
 
-                <div className="flex items-center gap-2 mb-4">
-                  <FiMapPin className="w-4 h-4 text-accent" />
-                  <p className="text-accent font-semibold text-lg">
-                    {exp.company}
-                  </p>
-                </div>
-
-                <p className="text-text-secondary leading-relaxed mb-6">
-                  {exp.description}
+                <p className="mb-5 flex items-center gap-2">
+                  <FiMapPin className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                  <span className="font-semibold text-accent sm:text-lg">{exp.company}</span>
+                  {exp.image && (
+                    <img
+                      src={exp.image}
+                      alt={`${exp.company} Internship Certificate`}
+                      className="h-7 w-7 rounded-md object-cover"
+                      title="Internship Certificate"
+                    />
+                  )}
                 </p>
 
-                <div className="flex flex-wrap gap-2">
-                  {exp.technologies.map((tech, i) => (
+                <p className="mb-7 leading-relaxed text-text-secondary">{exp.description}</p>
+
+                {/* Technologies */}
+                <div
+                  role="list"
+                  aria-label="Technologies used"
+                  className="flex flex-wrap gap-2 border-t border-border pt-5"
+                >
+                  {exp.technologies.map(tech => (
                     <span
-                      key={i}
-                      className="px-3 py-1.5 bg-background-tertiary/50 border border-border text-text-secondary text-xs font-medium rounded-lg hover:border-accent/30 hover:text-text transition-all"
+                      role="listitem"
+                      key={tech}
+                      className="rounded-lg border border-border bg-background-tertiary/50 px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors duration-300 hover:border-accent/40 hover:text-text"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
               </motion.div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.article>
+          ))}
+        </div>
       </div>
     </Section>
   );
